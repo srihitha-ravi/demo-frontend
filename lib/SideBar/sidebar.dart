@@ -38,9 +38,7 @@ class Sidebar extends StatelessWidget {
                   ),
                   label: const Text(
                     'Create Issue',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 113, 24, 20),
-                    ),
+                    style: myTextStyle,
                   ),
                 ),
               ),
@@ -73,10 +71,7 @@ class Sidebar extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               "CC'ed Issues",
-              style: TextStyle(
-                color: Color.fromARGB(255, 113, 24, 20),
-                fontSize: 15.0,
-              ),
+              style: myTextStyle,
             ),
             onTap: () {
               // Handle settings item click
@@ -92,10 +87,7 @@ class Sidebar extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               "Created Issues",
-              style: TextStyle(
-                color: Color.fromARGB(255, 113, 24, 20),
-                fontSize: 15.0,
-              ),
+              style:myTextStyle,
             ),
             onTap: () {
               // Handle settings item click
