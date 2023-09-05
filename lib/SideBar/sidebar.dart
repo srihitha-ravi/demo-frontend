@@ -6,7 +6,7 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 250.0,
-      color: Colors.white,
+      color:Color.fromARGB(255, 113, 24, 20),
       child: Column(
         children: [
           const SizedBox(
@@ -19,7 +19,7 @@ class Sidebar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color.fromARGB(84, 113, 25, 20),
+                    color: Colors.black54,
                     blurRadius: 5.0,
                     spreadRadius: 1.0,
                     offset: Offset(0, 2),
@@ -38,7 +38,9 @@ class Sidebar extends StatelessWidget {
                   ),
                   label: const Text(
                     'Create Issue',
-                    style: myTextStyle,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 113, 24, 20),
+                    ),
                   ),
                 ),
               ),
@@ -50,9 +52,10 @@ class Sidebar extends StatelessWidget {
           const Divider(
             indent: 6.0,
             endIndent: 6.0,
+            color: Colors.white,
           ),
           ListTile(
-            leading: const Icon(Icons.person, color: Color.fromARGB(255, 113, 24, 20)),
+            leading: const Icon(Icons.person, color:Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               'Assigned Issues',
@@ -65,9 +68,10 @@ class Sidebar extends StatelessWidget {
           const Divider(
             indent: 6.0,
             endIndent: 6.0,
+            color: Colors.white,
           ),
           ListTile(
-            leading: const Icon(Icons.person_add, color: Color.fromARGB(255, 113, 24, 20)),
+            leading: const Icon(Icons.person_add, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               "CC'ed Issues",
@@ -80,10 +84,11 @@ class Sidebar extends StatelessWidget {
           const Divider(
             indent: 6.0,
             endIndent: 6.0,
+            color: Colors.white,
           ),
           // Add more items as needed
           ListTile(
-            leading: const Icon(Icons.report, color: Color.fromARGB(255, 113, 24, 20)),
+            leading: const Icon(Icons.report, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               "Created Issues",
