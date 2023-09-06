@@ -1,5 +1,6 @@
 import 'package:bughub_demo/Theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Sidebar extends StatelessWidget {
   @override
@@ -36,11 +37,13 @@ class Sidebar extends StatelessWidget {
                     color: Color.fromARGB(255, 113, 24, 20),
                     size: 35,
                   ),
-                  label: const Text(
+                  label: Text(
                     'Create Issue',
-                    style: TextStyle(
+                    style: GoogleFonts.raleway(
+                      textStyle: const TextStyle(
                       color: Color.fromARGB(255, 113, 24, 20),
-                    ),
+                      fontWeight: FontWeight.bold
+                    ),),
                   ),
                 ),
               ),
@@ -57,7 +60,7 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-            title: const Text(
+            title: Text(
               'Home',
               style: myTextStyle,
             ),
@@ -74,7 +77,7 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-            title: const Text(
+            title: Text(
               'Assigned Issues',
               style: myTextStyle,
             ),
@@ -90,7 +93,7 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person_add, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-            title: const Text(
+            title: Text(
               "CC'ed Issues",
               style: myTextStyle,
             ),
@@ -107,7 +110,7 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.report, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-            title: const Text(
+            title: Text(
               "Created Issues",
               style: myTextStyle,
             ),
