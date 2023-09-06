@@ -6,7 +6,7 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 250.0,
-      color:Color.fromARGB(255, 113, 24, 20),
+      color: Color.fromARGB(255, 113, 24, 20),
       child: Column(
         children: [
           const SizedBox(
@@ -27,8 +27,8 @@ class Sidebar extends StatelessWidget {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 6.0, horizontal: 12.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
                 child: TextButton.icon(
                   onPressed: () {},
                   icon: const Icon(
@@ -55,7 +55,24 @@ class Sidebar extends StatelessWidget {
             color: Colors.white,
           ),
           ListTile(
-            leading: const Icon(Icons.person, color:Colors.white),
+            leading: const Icon(Icons.home, color: Colors.white),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+            title: const Text(
+              'Home',
+              style: myTextStyle,
+            ),
+            onTap: () {
+              // Handle home item click
+            },
+          ),
+
+          const Divider(
+            indent: 6.0,
+            endIndent: 6.0,
+            color: Colors.white,
+          ),
+          ListTile(
+            leading: const Icon(Icons.person, color: Colors.white),
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               'Assigned Issues',
@@ -92,7 +109,7 @@ class Sidebar extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
             title: const Text(
               "Created Issues",
-              style:myTextStyle,
+              style: myTextStyle,
             ),
             onTap: () {
               // Handle settings item click

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bughub_demo/SideBar/sidebar.dart';
+import 'package:bughub_demo/Notification/notification_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,6 +9,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isSidebarOpen = false;
+  String notificationMessage = '';
+
+  void _handleNotifications() {
+  setState(() {
+    isSidebarOpen = false;
+  });
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => NotificationsPage(),
+    ),
+  );
+}
 
   void toggleSidebar() {
     setState(() {
@@ -66,6 +79,8 @@ class _HomePageState extends State<HomePage> {
                           hintText: 'Search',
                           hintStyle: TextStyle(
                             fontSize: 13.0,
+                            
+                            fontStyle: FontStyle.italic,
                             color: Color.fromARGB(255, 113, 24, 20),
                           ),
                           border: InputBorder.none,
@@ -85,9 +100,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.notifications,
                 color: Color.fromARGB(255, 113, 24, 20),
               ),
-              onPressed: () {
-                // Implement notification button functionality here
-              },
+              onPressed: _handleNotifications,
             ),
             IconButton(
               icon: const Icon(
@@ -115,6 +128,26 @@ class _HomePageState extends State<HomePage> {
               bottom: 0,
               width: 200, // Adjust the width of the sidebar as needed
               child: Sidebar(),
+            ),
+          if (notificationMessage.isNotEmpty)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                color:
+                    Colors.white.withOpacity(0.7), // Semi-transparent overlay
+                child: Center(
+                  child: Card(
+                    // Customize the appearance of the notification here
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(notificationMessage),
+                    ),
+                  ),
+                ),
+              ),
             ),
         ],
       ),
