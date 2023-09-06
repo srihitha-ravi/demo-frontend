@@ -1,6 +1,7 @@
 import 'package:bughub_demo/Theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bughub_demo/Create Issue/create_issue.dart';
 
 class Sidebar extends StatelessWidget {
   @override
@@ -31,7 +32,13 @@ class Sidebar extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CreateIssuePage(),
+                      ),
+                    );
+                  },
                   icon: const Icon(
                     Icons.add,
                     color: Color.fromARGB(255, 113, 24, 20),
@@ -41,9 +48,9 @@ class Sidebar extends StatelessWidget {
                     'Create Issue',
                     style: GoogleFonts.raleway(
                       textStyle: const TextStyle(
-                      color: Color.fromARGB(255, 113, 24, 20),
-                      fontWeight: FontWeight.bold
-                    ),),
+                          color: Color.fromARGB(255, 113, 24, 20),
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
