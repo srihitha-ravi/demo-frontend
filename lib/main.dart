@@ -115,7 +115,7 @@ class _BugReportFormState extends State<BugReportForm> {
     return true; // Form is valid
   }
 
-  // Function to show an error message
+
   void showErrorSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
