@@ -7,74 +7,65 @@ class BugReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(
-                    Icons.menu, // Add the sandwich menu icon here
-                    color: Color(0xFF711814),
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              },
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Color(0xFF711814),
             ),
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/BugHub.png',
-                  width: 80, // Increase the image size
-                  height: 80, // Increase the image size
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+          title: Row(
+            children: [
+              Image.asset(
+                'assets/BugHub.png',
+                width: 80,
+                height: 80,
+              ),
+              SizedBox(width: 10),
+              Container(
+                width: 150,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(66, 255, 154, 150),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                SizedBox(width: 10),
-                Container(
-                  width: 150, // Reduced search bar width
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(66, 255, 154, 150), // Updated color scheme for the search bar
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        color: Color(0xFF711814),
-                      ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xFF711814), // Icon color for the search bar
-                      ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Color(0xFF711814)),
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF711814),
                     ),
                   ),
                 ),
-              ],
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Color(0xFF711814),
-                ),
-                onPressed: () {
-                  // Handle notifications action here
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.account_circle,
-                  color: Color(0xFF711814),
-                ),
-                onPressed: () {
-                  // Handle account action here
-                },
               ),
             ],
           ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.notifications,
+                color: Color(0xFF711814),
+              ),
+              onPressed: () {
+                // Handle notifications action here
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                color: Color(0xFF711814),
+              ),
+              onPressed: () {
+                // Handle account action here
+              },
+            ),
+          ],
         ),
         body: BugReportForm(),
       ),
@@ -88,33 +79,30 @@ class BugReportForm extends StatefulWidget {
 }
 
 class _BugReportFormState extends State<BugReportForm> {
-  String selectedIssueType = 'Bug';
-  String selectedProduct = 'Product A';
-  String selectedComponent = 'Component X';
-  String selectedPriority = 'High';
+  String? selectedIssueType = 'Bug';
+  String? selectedProduct = 'Product A';
+  String? selectedComponent = 'Component X';
+  String? selectedPriority = 'High';
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController assignToController = TextEditingController(); // Added Assign To
+  TextEditingController assignToController = TextEditingController();
 
   final List<String> issueTypes = ['Bug', 'Feature Request', 'Other'];
   final List<String> products = ['Product A', 'Product B', 'Product C'];
   final List<String> components = ['Component X', 'Component Y', 'Component Z'];
   final List<String> priorities = ['High', 'Medium', 'Low'];
 
-  // Function to validate the form
   bool validateForm() {
-    if (selectedIssueType.isEmpty ||
-        selectedProduct.isEmpty ||
-        selectedComponent.isEmpty ||
-        selectedPriority.isEmpty ||
-        titleController.text.isEmpty ||
-        descriptionController.text.isEmpty ||
-        assignToController.text.isEmpty) {
-      return false; // Form is not valid
-    }
-    return true; // Form is valid
+    return [
+      selectedIssueType,
+      selectedProduct,
+      selectedComponent,
+      selectedPriority,
+      titleController.text,
+      descriptionController.text,
+      assignToController.text,
+    ].every((field) => field != null && field.isNotEmpty);
   }
-
 
   void showErrorSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -125,7 +113,70 @@ class _BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  double dropdownWidth = 80;
+  Widget buildDropdown(String labelText, String? selectedValue, List<String> items, void Function(String?)? onChanged) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          labelText,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
+        ),
+        Container(
+          width: 200,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(66, 255, 154, 150),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: DropdownButton<String>(
+            value: selectedValue,
+            onChanged: onChanged,
+            items: items.map((item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: TextStyle(color: Color(0xFF711814)),
+                ),
+              );
+            }).toList(),
+            underline: Container(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildTextField(String labelText, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
+        ),
+        SizedBox(height: 10),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(66, 255, 154, 150),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Enter $labelText',
+              hintStyle: TextStyle(color: Color(0xFF711814)),
+            ),
+            maxLines: labelText == 'Description' ? 4 : 1,
+          ),
+        ),
+        SizedBox(height: 20),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,211 +185,25 @@ class _BugReportFormState extends State<BugReportForm> {
       child: ListView(
         children: [
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Issue Type',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-              ),
-              Container(
-                width: 200,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: selectedIssueType,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedIssueType = newValue!;
-                    });
-                  },
-                  items: issueTypes.map((type) {
-                    return DropdownMenuItem<String>(
-                      value: type,
-                      child: Text(
-                        type,
-                        style: TextStyle(color: Color(0xFF711814)),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Product',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-              ),
-              Container(
-                width: 200,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: selectedProduct,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedProduct = newValue!;
-                    });
-                  },
-                  items: products.map((product) {
-                    return DropdownMenuItem<String>(
-                      value: product,
-                      child: Text(
-                        product,
-                        style: TextStyle(color: Color(0xFF711814)),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Component',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-              ),
-              Container(
-                width: 200,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: selectedComponent,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedComponent = newValue!;
-                    });
-                  },
-                  items: components.map((component) {
-                    return DropdownMenuItem<String>(
-                      value: component,
-                      child: Text(
-                        component,
-                        style: TextStyle(color: Color(0xFF711814)),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Priority',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-              ),
-              Container(
-                width: 200,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: selectedPriority,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedPriority = newValue!;
-                    });
-                  },
-                  items: priorities.map((priority) {
-                    return DropdownMenuItem<String>(
-                      value: priority,
-                      child: Text(
-                        priority,
-                        style: TextStyle(color: Color(0xFF711814)),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Title',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Enter title',
-                hintStyle: TextStyle(color: Color(0xFF711814)),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Description',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: TextField(
-              controller: descriptionController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Enter description',
-                hintStyle: TextStyle(color: Color(0xFF711814)),
-              ),
-              maxLines: 4,
-            ),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Assign To',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF711814)),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(66, 255, 154, 150), // Adjust opacity here
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: TextField(
-              controller: assignToController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Assign to',
-                hintStyle: TextStyle(color: Color(0xFF711814)),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
+          buildDropdown('Issue Type', selectedIssueType, issueTypes, (newValue) {
+            setState(() => selectedIssueType = newValue);
+          }),
+          SizedBox(height: 20), // Added space here
+          buildDropdown('Product', selectedProduct, products, (newValue) {
+            setState(() => selectedProduct = newValue);
+          }),
+          SizedBox(height: 20), // Added space here
+          buildDropdown('Component', selectedComponent, components, (newValue) {
+            setState(() => selectedComponent = newValue);
+          }),
+          SizedBox(height: 20), // Added space here
+          buildDropdown('Priority', selectedPriority, priorities, (newValue) {
+            setState(() => selectedPriority = newValue);
+          }),
+          SizedBox(height: 20), // Added space here
+          buildTextField('Title', titleController),
+          buildTextField('Description', descriptionController),
+          buildTextField('Assign To', assignToController),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -346,15 +211,11 @@ class _BugReportFormState extends State<BugReportForm> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    if (validateForm()) {
-                      // Handle form submission here
-                    } else {
-                      showErrorSnackbar(context);
-                    }
+                    validateForm() ? print('Form submitted!') : showErrorSnackbar(context);
                   },
                   child: Text('Submit', style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF711814), // Adjust opacity here
+                    primary: Color(0xFF711814),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
